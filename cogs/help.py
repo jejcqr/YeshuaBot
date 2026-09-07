@@ -20,6 +20,7 @@ class HelpCog(discord.Cog):
             "• `/randomverse` — afficher un verset aléatoire (toute la Bible ou un livre précis)",
             "• `/dailyverse` — afficher un verset aléatoire du jour (pas les lectures liturgiques)",
             "• `/setdailyverse` — configurer l'envoi automatique du verset du jour dans ce salon",
+            "• `/removedailyverse` — annuler l'envoi automatique du verset du jour",
 
             "",
             "**Infos liturgiques**",
@@ -29,7 +30,9 @@ class HelpCog(discord.Cog):
             "• `/gospel` — afficher l'Évangile du jour",
             "• `/readings` — afficher les lectures complètes de la messe du jour",
             "• `/setdailygospel` — configurer l'envoi automatique de l'Évangile du jour dans ce salon",
+            "• `/removedailygospel` — annuler l'envoi automatique de l'Évangile du jour",
             "• `/setdailyreadings` — configurer l'envoi automatique des lectures du jour dans ce salon",
+            "• `/removedailyreadings` — annuler l'envoi automatique des lectures du jour",
         ]
 
         embed = discord.Embed(

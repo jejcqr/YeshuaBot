@@ -361,6 +361,24 @@ def get_all_daily_verse_settings():
             pass
 
 
+def delete_daily_verse_settings(guild_id: int):
+    try:
+        cnx = mysql.connector.connect(**DB_CONFIG)
+        cursor = cnx.cursor()
+        cursor.execute("DELETE FROM daily_verse_settings WHERE guild_id = %s", (guild_id,))
+        cnx.commit()
+        return cursor.rowcount > 0
+    except Error as e:
+        print("Erreur MySQL (delete verse settings):", e)
+        return False
+    finally:
+        try:
+            cursor.close()
+            cnx.close()
+        except Exception:
+            pass
+
+
 def set_daily_gospel_settings(guild_id: int, channel_id: int, hour: int, minute: int, timezone: str):
     try:
         cnx = mysql.connector.connect(**DB_CONFIG)
@@ -406,6 +424,24 @@ def get_all_daily_gospel_settings():
             pass
 
 
+def delete_daily_gospel_settings(guild_id: int):
+    try:
+        cnx = mysql.connector.connect(**DB_CONFIG)
+        cursor = cnx.cursor()
+        cursor.execute("DELETE FROM daily_gospel_settings WHERE guild_id = %s", (guild_id,))
+        cnx.commit()
+        return cursor.rowcount > 0
+    except Error as e:
+        print("Erreur MySQL (delete gospel settings):", e)
+        return False
+    finally:
+        try:
+            cursor.close()
+            cnx.close()
+        except Exception:
+            pass
+
+
 def set_daily_readings_settings(guild_id: int, channel_id: int, hour: int, minute: int, timezone: str):
     try:
         cnx = mysql.connector.connect(**DB_CONFIG)
@@ -443,6 +479,24 @@ def get_all_daily_readings_settings():
     except Error as e:
         print("Erreur MySQL (get readings settings):", e)
         return []
+    finally:
+        try:
+            cursor.close()
+            cnx.close()
+        except Exception:
+            pass
+
+
+def delete_daily_readings_settings(guild_id: int):
+    try:
+        cnx = mysql.connector.connect(**DB_CONFIG)
+        cursor = cnx.cursor()
+        cursor.execute("DELETE FROM daily_readings_settings WHERE guild_id = %s", (guild_id,))
+        cnx.commit()
+        return cursor.rowcount > 0
+    except Error as e:
+        print("Erreur MySQL (delete readings settings):", e)
+        return False
     finally:
         try:
             cursor.close()

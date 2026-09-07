@@ -16,6 +16,7 @@ from database import (
     get_random_verse,
     set_daily_verse_settings,
     get_all_daily_verse_settings,
+    delete_daily_verse_settings,
 )
 from bible_utils import (
     make_bible_embed,
@@ -463,6 +464,28 @@ class BibleCog(discord.Cog):
             f"Verset du jour configuré pour ce salon à {heure:02d}:{minute:02d} ({timezone}).",
             ephemeral=True
         )
+
+    @discord.slash_command(
+        name="removedailyverse",
+        description="Annule l'envoi automatique du verset du jour sur ce serveur."
+    )
+    async def removedailyverse(self, ctx: discord.ApplicationContext):
+        await ctx.defer(ephemeral=True)
+
+        if ctx.guild is None:
+            await ctx.respond("Cette commande doit être utilisée dans un serveur.", ephemeral=True)
+            return
+
+        removed = delete_daily_verse_settings(ctx.guild.id)
+        try:
+            self.bot.scheduler.remove_job(f"verse-{ctx.guild.id}")
+        except Exception:
+            pass
+
+        if removed:
+            await ctx.respond("Envoi automatique du verset du jour désactivé.", ephemeral=True)
+        else:
+            await ctx.respond("Aucune configuration active pour ce serveur.", ephemeral=True)
 
     @discord.slash_command(
         name="randomverse",

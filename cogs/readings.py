@@ -10,8 +10,10 @@ from database import (
     get_all_daily_verse_settings,
     set_daily_gospel_settings,
     get_all_daily_gospel_settings,
+    delete_daily_gospel_settings,
     set_daily_readings_settings,
     get_all_daily_readings_settings,
+    delete_daily_readings_settings,
 )
 from bible_utils import ChapterPaginator, get_timezone_suggestions
 from liturgical_readings import get_daily_readings, get_gospel
@@ -277,6 +279,28 @@ class ReadingsCog(discord.Cog):
         )
 
     @discord.slash_command(
+        name="removedailygospel",
+        description="Annule l'envoi automatique de l'Évangile du jour sur ce serveur."
+    )
+    async def removedailygospel(self, ctx: discord.ApplicationContext):
+        await ctx.defer(ephemeral=True)
+
+        if ctx.guild is None:
+            await ctx.respond("Cette commande doit être utilisée dans un serveur.", ephemeral=True)
+            return
+
+        removed = delete_daily_gospel_settings(ctx.guild.id)
+        try:
+            self.bot.scheduler.remove_job(f"gospel-{ctx.guild.id}")
+        except Exception:
+            pass
+
+        if removed:
+            await ctx.respond("Envoi automatique de l'Évangile du jour désactivé.", ephemeral=True)
+        else:
+            await ctx.respond("Aucune configuration active pour ce serveur.", ephemeral=True)
+
+    @discord.slash_command(
         name="setdailyreadings",
         description="Configure l'envoi automatique des lectures du jour dans ce salon."
     )
@@ -318,6 +342,28 @@ class ReadingsCog(discord.Cog):
             f"Lectures du jour configurées pour ce salon à {heure:02d}:{minute:02d} ({timezone}).",
             ephemeral=True
         )
+
+    @discord.slash_command(
+        name="removedailyreadings",
+        description="Annule l'envoi automatique des lectures du jour sur ce serveur."
+    )
+    async def removedailyreadings(self, ctx: discord.ApplicationContext):
+        await ctx.defer(ephemeral=True)
+
+        if ctx.guild is None:
+            await ctx.respond("Cette commande doit être utilisée dans un serveur.", ephemeral=True)
+            return
+
+        removed = delete_daily_readings_settings(ctx.guild.id)
+        try:
+            self.bot.scheduler.remove_job(f"readings-{ctx.guild.id}")
+        except Exception:
+            pass
+
+        if removed:
+            await ctx.respond("Envoi automatique des lectures du jour désactivé.", ephemeral=True)
+        else:
+            await ctx.respond("Aucune configuration active pour ce serveur.", ephemeral=True)
 
 
 def setup(bot: discord.Bot):
