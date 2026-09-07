@@ -25,6 +25,19 @@ def _resolve_timezone(ctx: discord.ApplicationContext, timezone: str | None) -> 
     return tz_name
 
 
+def _liturgical_day_title(infos: dict) -> str:
+    ligne1 = (infos.get("ligne1") or "").strip()
+    ligne2 = (infos.get("ligne2") or "").strip()
+
+    if not ligne1:
+        return infos.get("jour_liturgique_nom") or "Lectures du jour"
+
+    title = ligne1[0].upper() + ligne1[1:]
+    if ligne2 and ligne2.lower() != "de la férie":
+        title += f" — {ligne2}"
+    return title
+
+
 def _today_for_timezone(tz_name: str) -> datetime.date:
     try:
         tz = pytz.timezone(tz_name)
@@ -84,11 +97,8 @@ class ReadingsCog(discord.Cog):
             color=embed_colour
         )
 
-        jour_nom = infos.get("jour_liturgique_nom") or infos.get("fete")
-        footer = f"Fuseau horaire : {tz_name}"
-        if jour_nom:
-            footer = f"{jour_nom} • {footer}"
-        embed.set_footer(text=footer)
+        jour_nom = _liturgical_day_title(infos)
+        embed.set_footer(text=f"{jour_nom} • Fuseau horaire : {tz_name}")
 
         await ctx.respond(embed=embed)
 
@@ -126,7 +136,7 @@ class ReadingsCog(discord.Cog):
         couleur = (infos.get("couleur") or "").lower()
         embed_colour = COLOUR_HEX.get(couleur, 0x3498db)
 
-        jour_nom = infos.get("jour_liturgique_nom") or infos.get("fete") or "Lectures du jour"
+        jour_nom = _liturgical_day_title(infos)
 
         pages = []
         for lecture in data["lectures"]:
