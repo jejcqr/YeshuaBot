@@ -359,3 +359,93 @@ def get_all_daily_verse_settings():
             cnx.close()
         except Exception:
             pass
+
+
+def set_daily_gospel_settings(guild_id: int, channel_id: int, hour: int, minute: int, timezone: str):
+    try:
+        cnx = mysql.connector.connect(**DB_CONFIG)
+        cursor = cnx.cursor()
+        cursor.execute(
+            """
+            INSERT INTO daily_gospel_settings (guild_id, channel_id, hour, minute, timezone)
+            VALUES (%s, %s, %s, %s, %s)
+            ON DUPLICATE KEY UPDATE
+                channel_id = VALUES(channel_id),
+                hour = VALUES(hour),
+                minute = VALUES(minute),
+                timezone = VALUES(timezone)
+            """,
+            (guild_id, channel_id, hour, minute, timezone)
+        )
+        cnx.commit()
+    except Error as e:
+        print("Erreur MySQL (set gospel settings):", e)
+    finally:
+        try:
+            cursor.close()
+            cnx.close()
+        except Exception:
+            pass
+
+
+def get_all_daily_gospel_settings():
+    try:
+        cnx = mysql.connector.connect(**DB_CONFIG)
+        cursor = cnx.cursor()
+        cursor.execute("SELECT guild_id, channel_id, hour, minute, timezone FROM daily_gospel_settings")
+        rows = cursor.fetchall()
+        return rows
+    except Error as e:
+        print("Erreur MySQL (get gospel settings):", e)
+        return []
+    finally:
+        try:
+            cursor.close()
+            cnx.close()
+        except Exception:
+            pass
+
+
+def set_daily_readings_settings(guild_id: int, channel_id: int, hour: int, minute: int, timezone: str):
+    try:
+        cnx = mysql.connector.connect(**DB_CONFIG)
+        cursor = cnx.cursor()
+        cursor.execute(
+            """
+            INSERT INTO daily_readings_settings (guild_id, channel_id, hour, minute, timezone)
+            VALUES (%s, %s, %s, %s, %s)
+            ON DUPLICATE KEY UPDATE
+                channel_id = VALUES(channel_id),
+                hour = VALUES(hour),
+                minute = VALUES(minute),
+                timezone = VALUES(timezone)
+            """,
+            (guild_id, channel_id, hour, minute, timezone)
+        )
+        cnx.commit()
+    except Error as e:
+        print("Erreur MySQL (set readings settings):", e)
+    finally:
+        try:
+            cursor.close()
+            cnx.close()
+        except Exception:
+            pass
+
+
+def get_all_daily_readings_settings():
+    try:
+        cnx = mysql.connector.connect(**DB_CONFIG)
+        cursor = cnx.cursor()
+        cursor.execute("SELECT guild_id, channel_id, hour, minute, timezone FROM daily_readings_settings")
+        rows = cursor.fetchall()
+        return rows
+    except Error as e:
+        print("Erreur MySQL (get readings settings):", e)
+        return []
+    finally:
+        try:
+            cursor.close()
+            cnx.close()
+        except Exception:
+            pass

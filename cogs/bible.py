@@ -39,7 +39,6 @@ class BibleCog(discord.Cog):
             print("Scheduler démarré.")
 
     def schedule_all_jobs(self):
-        self.bot.scheduler.remove_all_jobs()
         settings = get_all_daily_verse_settings()
         for guild_id, channel_id, hour, minute, tz_name in settings:
             try:
@@ -48,7 +47,10 @@ class BibleCog(discord.Cog):
                 tz = pytz.UTC
 
             trigger = CronTrigger(hour=hour, minute=minute, timezone=tz)
-            self.bot.scheduler.add_job(self.send_daily_verses, trigger)
+            self.bot.scheduler.add_job(
+                self.send_daily_verses, trigger,
+                id=f"verse-{guild_id}", replace_existing=True
+            )
 
     async def send_daily_verses(self):
         settings = get_all_daily_verse_settings()

@@ -28,6 +28,8 @@ class HelpCog(discord.Cog):
             "• `/today` — afficher les célébrations liturgiques catholiques du jour",
             "• `/gospel` — afficher l'Évangile du jour",
             "• `/readings` — afficher les lectures complètes de la messe du jour",
+            "• `/setdailygospel` — configurer l'envoi automatique de l'Évangile du jour dans ce salon",
+            "• `/setdailyreadings` — configurer l'envoi automatique des lectures du jour dans ce salon",
         ]
 
         embed = discord.Embed(
