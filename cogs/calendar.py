@@ -7,7 +7,7 @@ import pytz
 
 from database import get_all_daily_verse_settings
 from bible_utils import get_timezone_suggestions
-from liturgical_calendar import get_saints_for_date
+from liturgical_calendar import get_saints_for_date, COLOUR_HEX
 
 
 class CalendarCog(discord.Cog):
@@ -59,13 +59,6 @@ class CalendarCog(discord.Cog):
             )
             await ctx.respond(embed=embed)
             return
-
-        COLOUR_HEX = {
-            "vert": 0x2ecc71,
-            "blanc": 0xffffff,
-            "rouge": 0xe74c3c,
-            "violet": 0x9b59b6,
-        }
 
         lines = []
         main_colour = None

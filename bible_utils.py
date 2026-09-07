@@ -39,20 +39,30 @@ def parse_reference(ref: str):
 
 
 class ChapterPaginator(discord.ui.View):
-    def __init__(self, pages: List[str], title: str):
+    def __init__(
+        self,
+        pages: List[str],
+        title: str,
+        footer_text: str = "Bible Louis Segond (1910)",
+        color: int = 0x3498db,
+    ):
         super().__init__(timeout=None)  # aucun timeout
         self.pages = pages
         self.title = title
         self.current = 0
+        self.footer_text = footer_text
+        self.color = color
 
     async def update_message(self, interaction: discord.Interaction):
         self.prev_button.disabled = self.current == 0
         self.next_button.disabled = self.current >= len(self.pages) - 1
 
-        embed = make_bible_embed(
+        embed = discord.Embed(
             title=self.title + f" (page {self.current + 1}/{len(self.pages)})",
-            description=self.pages[self.current]
+            description=self.pages[self.current],
+            color=self.color,
         )
+        embed.set_footer(text=self.footer_text)
         await interaction.response.edit_message(embed=embed, view=self)
 
     @discord.ui.button(label="Précédent", style=discord.ButtonStyle.primary)

@@ -15,6 +15,7 @@ EXTENSIONS = [
     "cogs.bible",
     "cogs.info",
     "cogs.calendar",
+    "cogs.readings",
     "cogs.help",
     "cogs.admin",
 ]

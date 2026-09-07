@@ -18,7 +18,7 @@ class HelpCog(discord.Cog):
             "• `/chapter` — afficher un chapitre complet",
             "• `/search` — rechercher un passage à partir de mots ou d'une phrase",
             "• `/randomverse` — afficher un verset aléatoire (toute la Bible ou un livre précis)",
-            "• `/dailyverse` — afficher le verset du jour",
+            "• `/dailyverse` — afficher un verset aléatoire du jour (pas les lectures liturgiques)",
             "• `/setdailyverse` — configurer l'envoi automatique du verset du jour dans ce salon",
 
             "",
@@ -26,6 +26,8 @@ class HelpCog(discord.Cog):
             "• `/infobook` — afficher le nombre de chapitres d'un livre",
             "• `/infoverse` — afficher le nombre de versets d'un chapitre",
             "• `/today` — afficher les célébrations liturgiques catholiques du jour",
+            "• `/gospel` — afficher l'Évangile du jour",
+            "• `/readings` — afficher les lectures complètes de la messe du jour",
         ]
 
         embed = discord.Embed(

@@ -27,6 +27,14 @@ COLOUR_EN_TO_FR = {
     "purple": "violet",
 }
 
+COLOUR_HEX = {
+    "vert": 0x2ecc71,
+    "blanc": 0xffffff,
+    "rouge": 0xe74c3c,
+    "violet": 0x9b59b6,
+    "rose": 0xf1948a,
+}
+
 TITLE_EN_TO_FR = {
     "4th sunday of lent": "4ᵉ dimanche de Carême (Laetare)",
     "3rd sunday of lent": "3ᵉ dimanche de Carême",
