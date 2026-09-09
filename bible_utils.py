@@ -46,12 +46,22 @@ class ChapterPaginator(discord.ui.View):
         footer_text: str = "Bible Louis Segond (1910)",
         color: int = 0x3498db,
     ):
-        super().__init__(timeout=None)  # aucun timeout
+        super().__init__(timeout=86400)  # 24h, pour ne pas garder les pages en mémoire indéfiniment
         self.pages = pages
         self.title = title
         self.current = 0
         self.footer_text = footer_text
         self.color = color
+        self.message: discord.Message | None = None
+
+    async def on_timeout(self):
+        for item in self.children:
+            item.disabled = True
+        if self.message is not None:
+            try:
+                await self.message.edit(view=self)
+            except Exception:
+                pass
 
     async def update_message(self, interaction: discord.Interaction):
         self.prev_button.disabled = self.current == 0

@@ -273,7 +273,7 @@ class BibleCog(discord.Cog):
 
         if len(pages) > 1:
             view = ChapterPaginator(pages, title)
-            await ctx.respond(embed=embed, view=view)
+            view.message = await ctx.respond(embed=embed, view=view)
         else:
             await ctx.respond(embed=embed)
 
@@ -361,7 +361,7 @@ class BibleCog(discord.Cog):
 
         if len(pages) > 1:
             view = ChapterPaginator(pages, title)
-            await ctx.respond(embed=embed, view=view)
+            view.message = await ctx.respond(embed=embed, view=view)
         else:
             await ctx.respond(embed=embed)
 

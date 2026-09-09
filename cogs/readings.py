@@ -155,7 +155,7 @@ class ReadingsCog(discord.Cog):
         try:
             if len(pages) > 1:
                 view = ChapterPaginator(pages, jour_nom, footer_text=f"Fuseau horaire : {tz_name}", color=EMBED_COLOR)
-                await channel.send(embed=embed, view=view)
+                view.message = await channel.send(embed=embed, view=view)
             else:
                 await channel.send(embed=embed)
         except Exception as e:
@@ -231,7 +231,7 @@ class ReadingsCog(discord.Cog):
 
         if len(pages) > 1:
             view = ChapterPaginator(pages, jour_nom, footer_text=f"Fuseau horaire : {tz_name}", color=EMBED_COLOR)
-            await ctx.respond(embed=embed, view=view)
+            view.message = await ctx.respond(embed=embed, view=view)
         else:
             await ctx.respond(embed=embed)
 
