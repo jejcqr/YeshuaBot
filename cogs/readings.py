@@ -237,6 +237,8 @@ class ReadingsCog(discord.Cog):
 
     @discord.slash_command(
         name="setdailygospel",
+        default_member_permissions=discord.Permissions(manage_guild=True),
+        contexts={discord.InteractionContextType.guild},
         description="Configure l'envoi automatique de l'Évangile du jour dans ce salon."
     )
     @option("heure", description="Heure (0-23) dans le fuseau choisi, ex: 8", required=True)
@@ -280,6 +282,8 @@ class ReadingsCog(discord.Cog):
 
     @discord.slash_command(
         name="removedailygospel",
+        default_member_permissions=discord.Permissions(manage_guild=True),
+        contexts={discord.InteractionContextType.guild},
         description="Annule l'envoi automatique de l'Évangile du jour sur ce serveur."
     )
     async def removedailygospel(self, ctx: discord.ApplicationContext):
@@ -302,6 +306,8 @@ class ReadingsCog(discord.Cog):
 
     @discord.slash_command(
         name="setdailyreadings",
+        default_member_permissions=discord.Permissions(manage_guild=True),
+        contexts={discord.InteractionContextType.guild},
         description="Configure l'envoi automatique des lectures du jour dans ce salon."
     )
     @option("heure", description="Heure (0-23) dans le fuseau choisi, ex: 8", required=True)
@@ -345,6 +351,8 @@ class ReadingsCog(discord.Cog):
 
     @discord.slash_command(
         name="removedailyreadings",
+        default_member_permissions=discord.Permissions(manage_guild=True),
+        contexts={discord.InteractionContextType.guild},
         description="Annule l'envoi automatique des lectures du jour sur ce serveur."
     )
     async def removedailyreadings(self, ctx: discord.ApplicationContext):

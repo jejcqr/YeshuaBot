@@ -413,6 +413,8 @@ class BibleCog(discord.Cog):
 
     @discord.slash_command(
         name="setdailyverse",
+        default_member_permissions=discord.Permissions(manage_guild=True),
+        contexts={discord.InteractionContextType.guild},
         description="Configure l'envoi automatique du verset du jour dans ce serveur."
     )
     @option(
@@ -467,6 +469,8 @@ class BibleCog(discord.Cog):
 
     @discord.slash_command(
         name="removedailyverse",
+        default_member_permissions=discord.Permissions(manage_guild=True),
+        contexts={discord.InteractionContextType.guild},
         description="Annule l'envoi automatique du verset du jour sur ce serveur."
     )
     async def removedailyverse(self, ctx: discord.ApplicationContext):
