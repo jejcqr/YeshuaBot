@@ -112,6 +112,10 @@ cogs/                    commandes Discord regroupées par thème
 segond_1910.sql          texte de la Bible Louis Segond 1910
 ```
 
+## Licence
+
+Code sous [licence MIT](LICENSE). Le texte de la Bible Louis Segond 1910 est dans le domaine public.
+
 ## Voir aussi
 
 - [AlHudaBot](https://github.com/jejcqr/AlHudaBot), le bot équivalent pour le Coran et les hadiths
