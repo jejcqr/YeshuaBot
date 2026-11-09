@@ -36,8 +36,9 @@ Texte biblique : **Louis Segond 1910** (domaine public), stocké dans MySQL/Mari
 
 ## Technologies
 
-- **Python 3.10+** avec [py-cord](https://pycord.dev) (commandes slash, vues à boutons)
+- **Python 3.10 à 3.13** avec [py-cord](https://pycord.dev) (commandes slash, vues à boutons)
 - **MySQL / MariaDB** via `mysql-connector-python`, requêtes paramétrées
+- **Docker** : `Dockerfile` (image `python:3.13-slim`) et `docker-compose.yml` fournis
 - **APScheduler** pour les envois quotidiens, **pytz** pour les fuseaux horaires
 - API externes : [AELF](https://api.aelf.org) (lectures de la messe) et
   [Church Calendar API](http://calapi.inadiutorium.cz) (calendrier liturgique)
@@ -75,6 +76,21 @@ CREATE TABLE IF NOT EXISTS daily_readings_settings LIKE daily_verse_settings;
 
 ### 3. Lancement
 
+#### Avec Docker (méthode utilisée en production)
+
+1. Copier `.env.example` en `.env` et renseigner `DISCORD_TOKEN` et `DB_PASSWORD`.
+2. Le `docker-compose.yml` fourni se connecte à un réseau Docker **externe** nommé `mariadb_default`,
+   dans lequel un conteneur `mariadb` héberge la base (`DB_HOST: mariadb`). Adaptez ces lignes à votre
+   installation (autre réseau, autre hôte, ou base installée sur la machine).
+3. Construire et lancer :
+
+```bash
+docker compose up -d --build
+docker compose logs -f
+```
+
+#### Sans Docker
+
 ```bash
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
@@ -102,14 +118,17 @@ l'utilisateur : pensez à les réserver aux modérateurs dans
 ## Structure
 
 ```
-yeshuabot.py             démarrage, chargement des modules, planificateur
-config.py                configuration et correspondance noms de livres ↔ numéros
-database.py              accès à la base (versets, recherche, réglages des envois)
-bible_utils.py           analyse des références, mise en forme, pagination
-liturgical_calendar.py   célébration du jour (traduction des rangs et couleurs)
-liturgical_readings.py   lectures de la messe via l'API AELF
-cogs/                    commandes Discord regroupées par thème
-segond_1910.sql          texte de la Bible Louis Segond 1910
+yeshuabot.py            démarrage, chargement des modules, planificateur
+config.py               configuration et correspondance noms de livres ↔ numéros
+database.py             accès à la base (versets, recherche, réglages des envois)
+bible_utils.py          analyse des références, mise en forme, pagination
+liturgical_calendar.py  célébration du jour (traduction des rangs et couleurs)
+liturgical_readings.py  lectures de la messe via l'API AELF
+cogs/                   commandes Discord regroupées par thème
+segond_1910.sql         texte de la Bible Louis Segond 1910
+Dockerfile              image Docker du bot
+docker-compose.yml      lancement avec Docker
+.env.example            modèle de configuration (variables d'environnement)
 ```
 
 ## Licence
